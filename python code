@@ -1,0 +1,28 @@
+# دابەزاندن و ئامادەکردنی پاکێجە پێویستەکان
+!pip install ultralytics opencv-python matplotlib
+
+import cv2
+import matplotlib.pyplot as plt
+from ultralytics import YOLO
+
+# هێنانی مۆدێلی YOLOv8 (پێشوەختە ڕاهێنراو)
+model = YOLO('yolov8n.pt')
+
+# دیاریکردنی ڕێڕەوی وێنەی ترافیکەکەت (وێنەی کۆمپیوتەرەکەت یان درایڤ)
+image_path = 'download.png'  # ناوی ئەو وێنەیەی کە هەتە
+
+# جێبەجێکردنی مۆدێلەکە لەسەر وێنەکە
+results = model(image_path)
+
+# نیشاندانی ئەنجامەکان و ناسینەوەی ئۆتۆمبێلەکان
+for r in results:
+    im_array = r.plot()  # کێشانی چوارچێوە لە دەور و پشتی ئۆتۆمبێلەکان
+    im_rgb = cv2.cvtColor(im_array, cv2.COLOR_BGR2RGB)
+    
+    # نیشاندانی وێنەکە لە کۆلابدا
+    plt.figure(figsize=(10, 10))
+    plt.imshow(im_rgb)
+    plt.axis('off')
+    plt.show()
+
+print("پڕۆژەکە بە سەرکەوتوویی ترافیکەکەی شیکردەوە و ئۆتۆمبێلەکانی ناسییەوە!")
